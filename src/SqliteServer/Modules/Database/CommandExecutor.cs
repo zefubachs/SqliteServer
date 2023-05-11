@@ -43,6 +43,18 @@ public class CommandExecutor : IDisposable
         return response;
     }
 
+    public async Task<QueryResponse> QueryAsync(IEnumerable<CommandRequest> requests, CancellationToken cancellationToken = default)
+    {
+        var command = new SqliteCommand(null, connection, transaction);
+        var response = new QueryResponse();
+        var stopwatch = new Stopwatch();
+        foreach (var request in requests)
+        {
+
+        }
+        return response;
+    }
+
     private static void PrepareCommand(SqliteCommand command, CommandRequest request)
     {
         command.CommandText = request.Command;
