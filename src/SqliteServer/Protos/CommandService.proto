@@ -1,0 +1,15 @@
+syntax = "proto3";
+option csharp_namespace = "SqliteServer.Contracts.Commands";
+
+service CommandService {
+	rpc Execute(CommandRequest) returns (CommandResponse);
+}
+
+message CommandRequest {
+	string command = 1;
+	map<string, string> parameters = 2;
+}
+
+message CommandResponse {
+	int32 rowsAffected = 1;
+}
