@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Tracing\" />
+    <Folder Include="Data\Audit\" />
     <Folder Include="Models\" />
   </ItemGroup>
 

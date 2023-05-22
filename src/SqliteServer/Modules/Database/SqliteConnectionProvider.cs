@@ -2,19 +2,19 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using SqliteServer.Configuration;
+using SqliteServer.Data.Configuration;
 using SqliteServer.Options;
 
 namespace SqliteServer.Modules.Database;
 
 public class SqliteConnectionProvider : ISqliteConnectionProvider
 {
-    private readonly ConfigurationDbContext context;
+    private readonly ApplicationDbContext context;
     private readonly StorageOptions storageOptions;
     private readonly IMemoryCache cache;
     private readonly ILogger<SqliteConnectionProvider> logger;
 
-    public SqliteConnectionProvider(ConfigurationDbContext context, IOptions<StorageOptions> storageOptions,
+    public SqliteConnectionProvider(ApplicationDbContext context, IOptions<StorageOptions> storageOptions,
         IMemoryCache cache, ILogger<SqliteConnectionProvider> logger)
     {
         this.context = context;
@@ -33,7 +33,7 @@ public class SqliteConnectionProvider : ISqliteConnectionProvider
             if (db is null)
                 return null;
 
-            var path = Path.Combine(storageOptions.Root!, db.Name + ".sqlite");
+            var path = Path.Combine(storageOptions.Data!, db.Name + ".sqlite");
             return new SqliteConnectionStringBuilder { DataSource = path }.ConnectionString;
         });
         if (connectionString is null)

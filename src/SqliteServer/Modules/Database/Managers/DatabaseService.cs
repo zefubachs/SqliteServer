@@ -1,20 +1,20 @@
-﻿using SqliteServer.Configuration;
-using SqliteServer.Modules.Database.Models;
+﻿using SqliteServer.Modules.Database.Models;
 using SqliteServer.Modules.Database.Validators;
 using SqliteServer.Options;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SqliteServer.Data.Configuration;
 
 namespace SqliteServer.Modules.Database.Managers;
 
 public class DatabaseService
 {
-    private readonly ConfigurationDbContext context;
+    private readonly ApplicationDbContext context;
     private readonly StorageOptions storageOptions;
     private readonly ILogger<DatabaseService> logger;
 
-    public DatabaseService(ConfigurationDbContext context, IOptions<StorageOptions> storageOptions, ILogger<DatabaseService> logger)
+    public DatabaseService(ApplicationDbContext context, IOptions<StorageOptions> storageOptions, ILogger<DatabaseService> logger)
     {
         this.context = context;
         this.storageOptions = storageOptions.Value;
@@ -35,7 +35,7 @@ public class DatabaseService
         var validator = new CreateDatabaseValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var entity = new Configuration.Entities.Database { Name = request.Name! };
+        var entity = new Data.Application.Entities.Database { Name = request.Name! };
         context.Databases.Add(entity);
         await context.SaveChangesAsync(cancellationToken);
 
@@ -45,7 +45,7 @@ public class DatabaseService
     public async Task<DatabaseInfo> AttachDatabaseAsync(string name, IFormFile file, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("Attaching new database");
-        var entity = new Configuration.Entities.Database
+        var entity = new Data.Application.Entities.Database
         {
             Name = name,
         };
@@ -102,5 +102,5 @@ public class DatabaseService
         return true;
     }
 
-    private string GetDatabaseFile(string name) => Path.Combine(storageOptions.Root!, name + "sqlite");
+    private string GetDatabaseFile(string name) => Path.Combine(storageOptions.Data!, name + "sqlite");
 }

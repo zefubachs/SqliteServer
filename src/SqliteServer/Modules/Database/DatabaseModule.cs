@@ -117,10 +117,10 @@ public class DatabaseModule : IModule
         return Results.Ok();
     }
 
-    private static async Task<IResult> Execute(string name, List<CommandRequest> commands,
+    private static async Task<IResult> Execute(string name, string? transaction, List<CommandRequest> commands,
         CommandService commandService, CancellationToken cancellationToken)
     {
-        await commandService.Execute(name, commands, cancellationToken);
+        await commandService.ExecuteAsync(name, commands, transaction, cancellationToken);
         return Results.Ok();
     }
 }
